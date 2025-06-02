@@ -1,0 +1,16 @@
+{
+  "name": "ai-form-filler-test",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Standalone test script for AI Form Filler API functionality",
+  "main": "test-api.js",
+  "scripts": {
+    "test": "node test-api.js",
+    "test-connection": "node -e \"import('./test-api.js').then(m => new m.AnthropicAPI(process.env.ANTHROPIC_API_KEY).testConnection().then(console.log))\""
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "author": "",
+  "license": "MIT"
+}

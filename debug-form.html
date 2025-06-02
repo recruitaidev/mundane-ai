@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Form - AI Form Filler</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        button { background: #007cba; color: white; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; }
+        .debug { background: #f0f0f0; padding: 10px; margin: 20px 0; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>🤖 AI Form Filler Debug Form</h1>
+    
+    <div class="debug">
+        <h3>Debug Instructions:</h3>
+        <ol>
+            <li><strong>Open Console:</strong> Right-click → Inspect → Console tab</li>
+            <li><strong>Try filling the form</strong> with the extension</li>
+            <li><strong>Watch for these logs:</strong>
+                <ul>
+                    <li>🤖 AI Form Filler Content Script Loaded</li>
+                    <li>🔍 Starting field detection...</li>
+                    <li>✅ Added fillable field</li>
+                    <li>📨 Content script received message</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <form id="testForm">
+        <div class="form-group">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" placeholder="your@email.com">
+        </div>
+
+        <div class="form-group">
+            <label for="company">Company:</label>
+            <input type="text" id="company" name="company" placeholder="Your company name">
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" placeholder="+1 (555) 123-4567">
+        </div>
+
+        <div class="form-group">
+            <label for="website">Website:</label>
+            <input type="url" id="website" name="website" placeholder="https://yourwebsite.com">
+        </div>
+
+        <div class="form-group">
+            <label for="bio">Professional Bio:</label>
+            <textarea id="bio" name="bio" rows="4" placeholder="Tell us about yourself and your professional background..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="interests">Interests:</label>
+            <textarea id="interests" name="interests" rows="3" placeholder="What are your professional interests?"></textarea>
+        </div>
+
+        <button type="submit">Submit Form</button>
+    </form>
+
+    <div class="debug">
+        <h3>Manual Field Count Test:</h3>
+        <button onclick="testFieldDetection()">🔍 Test Field Detection</button>
+        <div id="fieldResults"></div>
+    </div>
+
+    <script>
+        // Prevent form submission for testing
+        document.getElementById('testForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Form submission prevented for testing purposes');
+        });
+
+        // Manual field detection test
+        function testFieldDetection() {
+            const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="url"], textarea');
+            const results = document.getElementById('fieldResults');
+            
+            results.innerHTML = `
+                <h4>Manual Field Detection Results:</h4>
+                <p>Found ${inputs.length} potential fields:</p>
+                <ul>
+                    ${Array.from(inputs).map(input => 
+                        `<li>${input.tagName.toLowerCase()} - type: ${input.type || 'text'} - id: ${input.id} - name: ${input.name}</li>`
+                    ).join('')}
+                </ul>
+            `;
+        }
+
+        // Log when page loads
+        console.log('🎯 Debug form loaded - Ready for AI Form Filler testing');
+    </script>
+</body>
+</html>

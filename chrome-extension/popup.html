@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 350px;
+      min-height: 400px;
+      margin: 0;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      font-size: 14px;
+      background: #f8f9fa;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 18px;
+      color: #1a73e8;
+      font-weight: 600;
+    }
+
+    .section {
+      margin-bottom: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .section h3 {
+      margin: 0 0 10px 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: #555;
+    }
+
+    input[type="password"], textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 13px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+      font-family: inherit;
+    }
+
+    .button {
+      width: 100%;
+      padding: 10px;
+      background: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .button:hover {
+      background: #1557b0;
+    }
+
+    .button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .button.secondary {
+      background: #6c757d;
+      margin-bottom: 8px;
+    }
+
+    .button.secondary:hover {
+      background: #545b62;
+    }
+
+    .status {
+      margin-top: 10px;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .status.info {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+
+    .field-count {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .links {
+      text-align: center;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .links a {
+      color: #1a73e8;
+      text-decoration: none;
+      font-size: 12px;
+      margin: 0 5px;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .char-count {
+      font-size: 11px;
+      color: #666;
+      text-align: right;
+      margin-top: 2px;
+    }
+
+    .shortcut-info {
+      font-size: 11px;
+      color: #666;
+      text-align: center;
+      margin-top: 8px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🤖 AI Form Filler</h1>
+  </div>
+
+  <div class="section">
+    <h3>Form Filling</h3>
+    <button class="button" id="fillForms">🚀 Fill Forms on This Page</button>
+    <div class="field-count" id="fieldCount">Scanning for fields...</div>
+    <div class="shortcut-info">Shortcut: Ctrl+Shift+F (or Cmd+Shift+F on Mac)</div>
+  </div>
+
+  <div class="section">
+    <h3>Instructions</h3>
+    <div class="form-group">
+      <label for="systemPrompt">How should forms be filled?</label>
+      <textarea 
+        id="systemPrompt" 
+        placeholder="Example: You are helping fill out event registration forms. Use professional but friendly tone. For name fields use 'John Smith', for email use 'john.smith@example.com', for company use 'Tech Solutions Inc.'"
+        maxlength="2000"
+      ></textarea>
+      <div class="char-count" id="promptCharCount">0/2000</div>
+    </div>
+    <button class="button secondary" id="savePrompt">Save Prompt</button>
+  </div>
+
+  <div id="status" class="status hidden"></div>
+
+  <div class="links">
+    <a href="#" id="openOptions">Settings</a>
+    <a href="https://console.anthropic.com/" target="_blank">Get API Key</a>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

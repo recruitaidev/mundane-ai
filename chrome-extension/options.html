@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>AI Form Filler - Settings</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: #f8f9fa;
+      color: #333;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      color: #1a73e8;
+      font-weight: 700;
+    }
+
+    .header p {
+      margin: 10px 0 0 0;
+      color: #666;
+      font-size: 16px;
+    }
+
+    .section {
+      background: white;
+      padding: 30px;
+      margin-bottom: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .section h2 {
+      margin: 0 0 20px 0;
+      font-size: 20px;
+      color: #333;
+      font-weight: 600;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #555;
+      font-size: 14px;
+    }
+
+    .description {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    input[type="password"], textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 14px;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+
+    input[type="password"]:focus, textarea:focus {
+      outline: none;
+      border-color: #1a73e8;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+      font-family: inherit;
+      line-height: 1.5;
+    }
+
+    .button {
+      background: #1a73e8;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      margin-right: 10px;
+    }
+
+    .button:hover {
+      background: #1557b0;
+    }
+
+    .button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .button.secondary {
+      background: #6c757d;
+    }
+
+    .button.secondary:hover {
+      background: #545b62;
+    }
+
+    .status {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 2px solid #c3e6cb;
+    }
+
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 2px solid #f5c6cb;
+    }
+
+    .status.info {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 2px solid #bee5eb;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .char-count {
+      font-size: 12px;
+      color: #666;
+      text-align: right;
+      margin-top: 5px;
+    }
+
+    .examples {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 6px;
+      margin-top: 15px;
+    }
+
+    .examples h4 {
+      margin: 0 0 15px 0;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .example-prompt {
+      background: white;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      border-left: 4px solid #1a73e8;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .example-prompt strong {
+      color: #1a73e8;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .shortcuts {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 20px;
+    }
+
+    .shortcuts h4 {
+      margin: 0 0 10px 0;
+      color: #856404;
+    }
+
+    .shortcuts p {
+      margin: 5px 0;
+      color: #856404;
+      font-size: 13px;
+    }
+
+    .api-info {
+      background: #e7f3ff;
+      border: 1px solid #b3d4fc;
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 15px;
+    }
+
+    .api-info h4 {
+      margin: 0 0 10px 0;
+      color: #1a73e8;
+    }
+
+    .api-info p {
+      margin: 5px 0;
+      color: #1557b0;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .api-info a {
+      color: #1a73e8;
+      text-decoration: none;
+    }
+
+    .api-info a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🤖 AI Form Filler Settings</h1>
+    <p>Configure your AI assistant for automatic form filling</p>
+  </div>
+
+  <div class="section">
+    <h2>System Prompt Configuration</h2>
+    <div class="form-group">
+      <label for="systemPrompt">AI Instructions</label>
+      <div class="description">
+        Tell the AI how you want forms to be filled. Be specific about the tone, style, and information to use.
+      </div>
+      <textarea 
+        id="systemPrompt" 
+        placeholder="Enter detailed instructions for how the AI should fill forms..."
+        maxlength="5000"
+      ></textarea>
+      <div class="char-count" id="promptCharCount">0/5000</div>
+    </div>
+    
+    <div class="examples">
+      <h4>💡 Example Prompts:</h4>
+      
+      <div class="example-prompt">
+        <strong>Professional Event Registration:</strong>
+        You are helping fill out professional event registration forms. Use a professional tone. For name fields use "John Smith", for email use "john.smith@techcorp.com", for company use "TechCorp Solutions", for title use "Senior Developer", for phone use "+1 (555) 123-4567". For interest/bio fields, mention software development and technology trends.
+      </div>
+      
+      <div class="example-prompt">
+        <strong>Marketing/Sales Forms:</strong>
+        You are filling marketing and lead generation forms. Use business-focused language. For name use "Sarah Johnson", email "sarah@businesssolutions.com", company "Business Solutions Inc", title "Marketing Director". For interests mention digital marketing, lead generation, and business growth. Keep responses professional but engaging.
+      </div>
+      
+      <div class="example-prompt">
+        <strong>Conference/Workshop Registration:</strong>
+        You are registering for conferences and workshops. Use "Alex Chen" for name, "alex.chen@innovatetech.com" for email, "InnovateTech" for company, "Product Manager" for title. For session interests, focus on product development, user experience, and innovation. Mention 5+ years experience when asked.
+      </div>
+    </div>
+    
+    <button class="button" id="savePrompt">Save Prompt</button>
+    <button class="button secondary" id="loadExample">Load Example</button>
+  </div>
+
+  <div class="section">
+    <h2>API Configuration</h2>
+    <div class="form-group">
+      <label for="apiKey">Anthropic API Key</label>
+      <div class="description">
+        Your API key is stored locally and never shared. Get your key from the Anthropic Console.
+      </div>
+      <input type="password" id="apiKey" placeholder="sk-ant-...">
+    </div>
+    
+    <div class="api-info">
+      <h4>🔐 Getting Your API Key:</h4>
+      <p>1. Visit <a href="https://console.anthropic.com/" target="_blank">console.anthropic.com</a></p>
+      <p>2. Sign up or log in to your account</p>
+      <p>3. Go to API Keys section</p>
+      <p>4. Create a new API key</p>
+      <p>5. Copy and paste it here</p>
+      <p><strong>Note:</strong> API usage is charged per request. Check Anthropic's pricing for current rates.</p>
+    </div>
+    
+    <button class="button" id="saveApiKey">Save API Key</button>
+    <button class="button secondary" id="testConnection">Test Connection</button>
+  </div>
+
+  <div class="section">
+    <h2>Usage Instructions</h2>
+    
+    <div class="shortcuts">
+      <h4>⌨️ Keyboard Shortcuts:</h4>
+      <p><strong>Ctrl+Shift+F:</strong> Fill forms on current page</p>
+    </div>
+    
+    <div style="margin-top: 20px;">
+      <h4>📋 How to Use:</h4>
+      <ol style="line-height: 1.6; color: #666;">
+        <li>Set up your system prompt and API key above</li>
+        <li>Navigate to any page with forms (like event registration, contact forms, etc.)</li>
+        <li>Click the extension icon in your browser toolbar</li>
+        <li>Click "Fill Forms" or use Ctrl+Shift+F</li>
+        <li>Watch as the AI fills in all the form fields automatically!</li>
+      </ol>
+    </div>
+    
+    <div style="margin-top: 20px;">
+      <h4>✨ Features:</h4>
+      <ul style="line-height: 1.6; color: #666;">
+        <li>Detects all text inputs and textareas automatically</li>
+        <li>Processes multiple fields in parallel for speed</li>
+        <li>Considers field labels, placeholders, and context</li>
+        <li>Visual feedback when fields are filled</li>
+        <li>Works on any website with forms</li>
+        <li>Persistent settings across browser sessions</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="status" class="status hidden"></div>
+
+  <script src="options.js"></script>
+</body>
+</html>
