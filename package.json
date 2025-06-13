@@ -1,16 +1,20 @@
 {
-  "name": "ai-form-filler-test",
+  "name": "github-mcp-server",
   "version": "1.0.0",
+  "description": "GitHub MCP Server with comprehensive API integration",
+  "main": "server.js",
   "type": "module",
-  "description": "Standalone test script for AI Form Filler API functionality",
-  "main": "test-api.js",
   "scripts": {
-    "test": "node test-api.js",
-    "test-connection": "node -e \"import('./test-api.js').then(m => new m.AnthropicAPI(process.env.ANTHROPIC_API_KEY).testConnection().then(console.log))\""
+    "start": "node server.js",
+    "dev": "node --watch server.js"
   },
   "dependencies": {
-    "node-fetch": "^3.3.2"
+    "@modelcontextprotocol/sdk": "^1.11.4",
+    "express": "^4.18.2",
+    "zod": "^3.22.4",
+    "dotenv": "^16.3.1"
   },
-  "author": "",
-  "license": "MIT"
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }
