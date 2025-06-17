@@ -1,30 +1,25 @@
-# MCP Server Setup Guide
-## What is MCP (Model Context Protocol)?
-The Model Context Protocol (MCP) is an open standard that enables AI agents (LLMs) to interact systematically and securely with external APIs and data sources. It allows AI systems to invoke tools, retrieve structured data, and perform real-world tasks effectively.
+# Model Context Protocol (MCP) Server Guide
+## What is MCP?
+Model Context Protocol (MCP) is an open standard that enables AI agents (LLMs) to interact securely and systematically with external APIs and data sources.
 ### Core Components
-- **Resources**: Read-only data endpoints (e.g., documentation pages, config files, weather reports)
-- **Tools**: Interactive functions that can perform actions or computations (e.g., API calls, database operations)
-- **Prompts**: Reusable templates that help LLMs interact with your server effectively
+- **Resources**: Read-only data endpoints (config files, documentation, reports)
+- **Tools**: Interactive functions that perform actions (API calls, calculations, database operations)
+- **Prompts**: Reusable templates for AI interactions
+## Server Types
+### 1. Streamable HTTP Server
+Best for remote deployments and web-based integrations.
+### 2. SSE (Server-Sent Events) Server
+Ideal for real-time streaming applications and live data feeds.
+### 3. Stdio Server
+Perfect for command-line tools and direct integrations.
 ## Quick Start
-### 1. Choose Your Transport Type
-**Streamable HTTP** (Recommended for web applications)
-- Best for remote servers and web integrations
-- Supports both stateful and stateless operations
-- Easy to deploy and scale
-**SSE (Server-Sent Events)**
-- For real-time streaming scenarios
-- Good for live data feeds
-**Stdio**
-- For command-line tools and direct integrations
-- Simple setup for local development
-### 2. Installation
+### Prerequisites
 ```bash
 npm init -y
 npm install @modelcontextprotocol/sdk@1.11.4 express zod
 ```
-### 3. Basic Server Setup
-#### Stateless Streamable HTTP Server
-```javascript
+### Basic Echo Server (Streamable HTTP)
+```typescript
 import express from 'express';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
@@ -32,76 +27,51 @@ import { z } from 'zod';
 const app = express();
 app.use(express.json());
 app.post('/mcp', async (req, res) => {
-  const server = new McpServer({ 
-    name: 'MyMCPServer', 
-    version: '1.0.0' 
-  });
-  // Add your tools here
-  server.tool('echo', 
-    { message: z.string() }, 
-    async ({ message }) => ({
-      content: [{ type: 'text', text: `Echo: ${message}` }]
-    })
-  );
+  const server = new McpServer({ name: 'EchoServer', version: '1.0.0' });
+  
+  server.tool('echo', { message: z.string() }, async ({ message }) => ({
+    content: [{ type: 'text', text: `Echo: ${message}` }]
+  }));
   const transport = new StreamableHTTPServerTransport();
   await server.connect(transport);
   await transport.handleRequest(req, res, req.body);
 });
-app.listen(3000, () => {
-  console.log('✅ MCP server running on port 3000');
-});
+app.listen(3000, () => console.log('✅ Echo MCP server running on port 3000'));
 ```
-### 4. Converting APIs to MCP Tools
-If you have existing CURL requests or APIs, they can easily be converted to MCP tools:
-#### Example: REST API to MCP Tool
-```javascript
-// Your existing CURL:
-// curl -X POST https://api.example.com/users \
-//   -H "Authorization: Bearer TOKEN" \
-//   -H "Content-Type: application/json" \
-//   -d '{"name": "John", "email": "john@example.com"}'
-// Becomes this MCP tool:
-server.tool('createUser', 
-  { 
-    name: z.string(), 
-    email: z.string().email() 
-  }, 
-  async ({ name, email }) => {
-    const response = await fetch('https://api.example.com/users', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.API_TOKEN}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ name, email })
-    });
-    
-    const data = await response.json();
-    return {
-      content: [{ type: 'text', text: JSON.stringify(data, null, 2) }]
-    };
-  }
-);
-```
-## Getting Started Checklist
-- [ ] Choose your transport type (Streamable HTTP recommended)
-- [ ] Decide if you need stateful or stateless operations
-- [ ] Gather your existing API endpoints/CURL commands
-- [ ] Identify what data/functionality to expose
-- [ ] Set up authentication (API keys, tokens, etc.)
-- [ ] Install dependencies
-- [ ] Create your first MCP server
-- [ ] Test with MCP Inspector
+## Common Use Cases
+### API Wrapper
+Convert REST APIs into MCP tools for AI consumption.
+### Database Integration
+Expose database queries as MCP resources and tools.
+### File System Access
+Provide structured access to files and configurations.
+### External Service Integration
+Connect AI agents to third-party services securely.
+## Development Workflow
+1. **Design your tools/resources** - Define what functionality to expose
+2. **Choose transport type** - Streamable HTTP, SSE, or Stdio
+3. **Implement server logic** - Add tools, resources, and prompts
+4. **Add validation** - Use Zod schemas for input validation
+5. **Test thoroughly** - Use MCP Inspector for debugging
+6. **Deploy** - Host your server and configure clients
+## Best Practices
+- Always validate inputs with Zod schemas
+- Implement proper error handling
+- Use descriptive names and documentation
+- Keep tools focused and single-purpose
+- Handle authentication securely
+- Log important operations
+## Testing
+Use the [MCP Inspector](https://github.com/modelcontextprotocol/inspector) to test and debug your MCP servers during development.
+## Examples Repository
+Check out practical examples:
+- Weather API wrapper
+- Database query tool
+- File system explorer
+- Authentication-enabled servers
 ## Need Help?
-Share your:
-1. Existing API endpoints or CURL commands
-2. Authentication methods
-3. What functionality you want to expose
-4. Whether you need stateful or stateless operations
-And I'll help you build a custom MCP server!
-## Examples
-- **Simple Echo Server**: Basic tool demonstration
-- **Weather API Proxy**: REST API wrapper example  
-- **Database Operations**: Stateful server with session management
-- **File Operations**: Resource and tool combinations
-Ready to build your MCP server? Let's convert your APIs into powerful AI-accessible tools! 🚀
+- Review the official MCP SDK documentation
+- Use TypeScript for better development experience
+- Start simple and gradually add complexity
+- Test each component individually
+Ready to build your MCP server? Let's start coding! 🚀
